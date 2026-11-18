@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Princess Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0c0509;touch-action:none;-webkit-user-select:none;user-select:none}
+/* ===== midnight velvet background ===== */
+#bgx{position:fixed;inset:0;overflow:hidden;background:radial-gradient(120% 75% at 50% 0%,#4a1838 0%,#2a0d22 38%,#14060f 70%,#0a0407 100%)}
+#bgx::before{content:"";position:absolute;inset:0;opacity:.07;background-size:120px 120px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23e8c88a' stroke-width='1'%3E%3Cpath d='M60 10 C75 30 75 45 60 60 C45 45 45 30 60 10Z'/%3E%3Cpath d='M60 110 C75 90 75 75 60 60 C45 75 45 90 60 110Z'/%3E%3Cpath d='M10 60 C30 45 45 45 60 60 C45 75 30 75 10 60Z'/%3E%3Cpath d='M110 60 C90 45 75 45 60 60 C75 75 90 75 110 60Z'/%3E%3Ccircle cx='60' cy='60' r='4'/%3E%3Ccircle cx='0' cy='0' r='3'/%3E%3Ccircle cx='120' cy='0' r='3'/%3E%3Ccircle cx='0' cy='120' r='3'/%3E%3Ccircle cx='120' cy='120' r='3'/%3E%3C/g%3E%3C/svg%3E")}
+#rays{position:absolute;left:50%;top:-40vh;width:160vmax;height:160vmax;margin-left:-80vmax;background:conic-gradient(from 0deg,transparent 0 8deg,rgba(255,220,160,.07) 10deg,transparent 14deg 40deg,rgba(255,200,210,.06) 44deg,transparent 48deg 80deg,rgba(255,220,160,.07) 84deg,transparent 88deg 130deg,rgba(255,220,160,.05) 134deg,transparent 138deg 360deg);animation:spin 80s linear infinite;-webkit-mask:radial-gradient(closest-side,#000 20%,transparent 75%);mask:radial-gradient(closest-side,#000 20%,transparent 75%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bk{position:absolute;border-radius:50%;filter:blur(40px);mix-blend-mode:screen;animation:bk ease-in-out infinite alternate;will-change:transform}
+@keyframes bk{to{transform:translate(var(--x),var(--y)) scale(1.2)}}
+#vig{position:absolute;inset:0;background:radial-gradient(90% 70% at 50% 50%,transparent 55%,rgba(0,0,0,.65))}
+#gl{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+/* ===== fine gold frame + filigree corners ===== */
+#frame{position:fixed;inset:14px;border-radius:6px;padding:2px;pointer-events:none;z-index:120;background:linear-gradient(135deg,#7a5418,#f6e3b4,#b8862b,#fff4d6,#8a6420,#f6e3b4);background-size:300% 300%;animation:fr 7s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+#frame2{position:fixed;inset:22px;border:1px solid rgba(232,200,138,.35);border-radius:3px;pointer-events:none;z-index:120}
+@keyframes fr{to{background-position:300% 0}}
+.cor{position:fixed;width:70px;height:70px;z-index:121;pointer-events:none}
+.cor.a{left:8px;top:8px}.cor.b{right:8px;top:8px;transform:scaleX(-1)}.cor.c{left:8px;bottom:8px;transform:scaleY(-1)}.cor.d{right:8px;bottom:8px;transform:scale(-1,-1)}
+#wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;flex:none}
+canvas.fx{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none;z-index:30}
+/* ===== type ===== */
+.foil{background:linear-gradient(100deg,#8a6420 0%,#e9cf8e 18%,#fff4d6 30%,#c9a24e 45%,#f6e3b4 60%,#9b7330 78%,#f6e3b4 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:foil 5s linear infinite}
+@keyframes foil{to{background-position:-220% 0}}
+.scene{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity 1s}.scene.on{opacity:1}
+.t{position:absolute;left:70px;right:70px;text-align:center;opacity:0;transform:translateY(24px);transition:opacity 1.1s,transform 1.1s}.t.on{opacity:1;transform:none}
+.lbl{font:600 24px Cinzel,serif;letter-spacing:7px;color:#e3c58c;white-space:nowrap}
+.lbl::before,.lbl::after{content:"";display:inline-block;width:46px;height:1px;vertical-align:middle;margin:0 18px 6px;background:linear-gradient(90deg,transparent,#e3c58c)}.lbl::after{background:linear-gradient(90deg,#e3c58c,transparent)}
+.ttl{font:italic 500 70px/1.25 'Cormorant Garamond',serif;color:#f7ead7;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+.ttl b{font-weight:600}
+.scr{font:170px/1.1 'Pinyon Script',cursive;filter:drop-shadow(0 6px 24px rgba(0,0,0,.5))}
+.orn{display:block;margin:0 auto}
+/* ===== grand envelope (first page) ===== */
+#start{position:fixed;inset:0;z-index:99;cursor:pointer;background:transparent}
+@keyframes pulse{50%{transform:scale(1.06)}}
+@keyframes ring{from{transform:scale(.85);opacity:1}to{transform:scale(1.4);opacity:0}}
+#env{position:absolute;left:140px;top:720px;width:800px;height:540px;perspective:1800px;transition:transform 1.4s cubic-bezier(.5,0,.3,1),opacity 1.2s}
+#env.go{transform:translateY(520px) scale(.9);opacity:0}
+#env .back{position:absolute;inset:0;border-radius:12px;background:linear-gradient(160deg,#4a0820,#22030e);box-shadow:0 50px 110px rgba(0,0,0,.7),0 0 90px rgba(233,207,142,.2)}
+#lt{position:absolute;left:50px;top:28px;width:700px;height:480px;background:linear-gradient(180deg,#fffaf2,#f3e6d0);border-radius:6px;box-shadow:inset 0 0 0 10px #fffaf2,inset 0 0 0 12px #c9a24e;z-index:2;display:flex;flex-direction:column;align-items:center;padding-top:46px;transition:transform 1.3s cubic-bezier(.3,1.1,.4,1)}
+#lt.up{transform:translateY(-440px)}
+#lt .s{font:72px/1.2 'Pinyon Script',cursive;color:#7a1f3d;margin-top:8px}
+#pocket{position:absolute;left:0;top:0;width:800px;height:540px;z-index:3}
+#flap{position:absolute;left:0;top:0;width:800px;height:340px;z-index:4;transform-origin:50% 0;transition:transform 1.1s cubic-bezier(.5,0,.3,1)}
+#env.open #flap{transform:rotateX(180deg)}
+#seal2{position:absolute;left:325px;top:255px;width:150px;height:150px;border-radius:50%;z-index:6;background:radial-gradient(circle at 38% 32%,#c12a57,#7a0f30 55%,#3e0617);box-shadow:0 12px 26px rgba(0,0,0,.6),inset 0 0 0 9px rgba(0,0,0,.2),inset 0 0 0 11px rgba(255,200,200,.12);display:flex;align-items:center;justify-content:center;animation:pulse 2.2s ease-in-out infinite;transition:transform .5s,opacity .5s}
+#seal2::after{content:"";position:absolute;inset:-18px;border-radius:50%;border:2px solid rgba(232,200,138,.6);animation:ring 2.2s ease-out infinite}
+#seal2.pop{animation:none;transform:scale(1.6);opacity:0}
+#envName{position:absolute;left:0;right:0;top:420px;z-index:5;text-align:center;font:84px/1.1 'Pinyon Script',cursive;transition:opacity .6s}
+#env.open #envName{opacity:0}
+#big{position:absolute;left:70px;top:150px;width:940px;height:1540px;background:linear-gradient(180deg,#fffaf2,#f4e9d6);border-radius:6px;box-shadow:inset 0 0 0 16px #fffaf2,inset 0 0 0 19px #c9a24e,inset 0 0 0 25px #fffaf2,inset 0 0 0 26px #c9a24e,0 40px 120px rgba(0,0,0,.7),0 0 120px rgba(233,207,142,.25);opacity:0;transform:translateY(260px) scale(.55);transition:opacity 1s,transform 1.4s cubic-bezier(.25,1.1,.35,1);display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;padding:0 80px;z-index:5}
+#big.on{opacity:1;transform:none}
+#big .bc{position:absolute;width:90px;height:90px}
+#big .k{font:700 28px Cinzel,serif;letter-spacing:10px;color:#9b7330;margin-top:36px}
+#big .nm{font:150px/1.15 'Pinyon Script',cursive;color:#7a1f3d;margin-top:10px}
+#inv{font:italic 500 60px/1.5 'Cormorant Garamond',serif;color:#3a1426;white-space:pre-line;margin-top:34px;min-height:720px}
+#isg{font:72px 'Pinyon Script',cursive;color:#7a1f3d;opacity:0;transition:opacity 1s}
+/* ===== mirror ===== */
+#mirror{position:absolute;left:250px;top:480px;width:580px;height:780px}
+#mframe{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,#7a5418,#f6e3b4,#b8862b,#fff4d6,#8a6420,#f6e3b4,#c9a24e,#7a5418);box-shadow:0 0 80px rgba(232,200,138,.35),0 40px 90px rgba(0,0,0,.6)}
+#mframe::before{content:"";position:absolute;inset:14px;border-radius:50%;border:2px solid rgba(90,55,10,.6)}
+#mframe::after{content:"";position:absolute;inset:22px;border-radius:50%;border:1px solid rgba(255,244,214,.8)}
+#mglass{position:absolute;inset:32px;border-radius:50%;overflow:hidden;background:radial-gradient(70% 60% at 40% 32%,#f4f1f7,#b9b3c9 35%,#5d5772 72%,#2a2438);box-shadow:inset 0 0 70px rgba(10,5,20,.7)}
+#mglass::after{content:"";position:absolute;left:-40%;top:-10%;width:35%;height:120%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.5),rgba(255,255,255,0));transform:rotate(20deg);animation:msh 3.4s ease-in-out infinite}
+@keyframes msh{0%{left:-50%}70%,100%{left:120%}}
+#mcrack{position:absolute;inset:0;width:100%;height:100%}
+#mreveal{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 1.4s;background:radial-gradient(circle,#fdf6ee,#f1d9d6 65%,#d9aeb5)}
+#mreveal.on{opacity:1}
+#mreveal img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#mreveal .n{font:140px/1.1 'Pinyon Script',cursive;color:#7a1f3d;position:relative}
+#mirror.shake{animation:msk .4s}@keyframes msk{25%{transform:rotate(-2.5deg) scale(1.02)}75%{transform:rotate(2.5deg) scale(1.02)}}
+/* ===== decree ===== */
+#scroll{position:absolute;left:100px;top:300px;width:880px}
+.rod{height:54px;border-radius:27px;background:linear-gradient(#5c3a0a,#e9cf8e 45%,#7a5418);box-shadow:0 12px 30px rgba(0,0,0,.5);position:relative;z-index:2}
+.rod::before,.rod::after{content:"";position:absolute;top:-10px;width:46px;height:74px;border-radius:20px;background:linear-gradient(#3e2606,#d9b26a,#3e2606)}.rod::before{left:-32px}.rod::after{right:-32px}
+#paper{margin:0 34px;height:0;overflow:hidden;background:linear-gradient(90deg,#e6d6bb,#fbf4e8 14%,#fffaf2 50%,#fbf4e8 86%,#e6d6bb);transition:height 2s ease-in-out;padding:0 56px;text-align:center;position:relative}
+#paper .in{border:2px solid #c9a24e;outline:1px solid #c9a24e;outline-offset:-10px;margin:40px 0;padding:40px 30px 30px}
+#paper .k{font:700 32px Cinzel,serif;letter-spacing:9px;color:#7a1f3d}
+#decree{font:italic 500 46px/1.5 'Cormorant Garamond',serif;color:#3a1426;white-space:pre-line;margin-top:18px;min-height:540px}
+#paper .sg{font:64px 'Pinyon Script',cursive;color:#7a1f3d;opacity:0;transition:opacity 1s}
+#wax{width:110px;height:110px;margin:6px auto 0;border-radius:50%;background:radial-gradient(circle at 38% 32%,#b0234d,#7a0f30 55%,#3e0617);box-shadow:0 8px 18px rgba(60,0,20,.4),inset 0 0 0 6px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(2);transition:opacity .5s,transform .6s cubic-bezier(.3,1.6,.5,1)}
+#wax.on{opacity:1;transform:none}
+/* ===== crown ===== */
+#nameglow{position:absolute;left:0;right:0;top:1040px;text-align:center}
+#tiara{position:absolute;left:315px;top:280px;width:450px;height:300px;filter:drop-shadow(0 0 26px rgba(255,225,170,.7)) drop-shadow(0 10px 20px rgba(0,0,0,.5))}
+#hold{position:absolute;left:410px;top:1370px;width:260px;height:260px;border-radius:50%;opacity:0;transition:opacity .4s;display:flex;align-items:center;justify-content:center;background:conic-gradient(#e9cf8e var(--p,0%),rgba(233,207,142,.18) 0);box-shadow:0 0 50px rgba(233,207,142,.3);pointer-events:none;z-index:41}
+#hold::before{content:"";position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#3d1430,#1a0814)}
+#hold span{position:relative;font:600 30px Cinzel,serif;letter-spacing:6px;color:#f3dfb5;text-align:center;line-height:1.6}
+#hold.on{animation:hb 1.2s ease-in-out infinite}@keyframes hb{50%{transform:scale(1.05)}}
+#hail{position:absolute;left:0;right:0;top:1330px;text-align:center;font:600 38px Cinzel,serif;letter-spacing:8px;opacity:0;transition:opacity 1.2s}
+/* ===== reasons ===== */
+#gifts{position:absolute;left:0;top:560px;width:1080px;height:900px}
+.gift{position:absolute;left:150px;width:780px;padding:40px 54px;border-radius:8px;background:linear-gradient(135deg,rgba(70,22,52,.72),rgba(28,8,22,.78));border:1.5px solid rgba(233,207,142,.75);box-shadow:inset 0 0 0 8px rgba(0,0,0,.12),inset 0 0 0 9px rgba(233,207,142,.25),0 30px 70px rgba(0,0,0,.5);display:flex;align-items:center;gap:40px;opacity:0;transform:translateY(40px) scale(.92);transition:transform 1s cubic-bezier(.2,1.2,.4,1),opacity .8s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.gift.on{opacity:1;transform:none}
+.gift .e{font:600 84px/1 Cinzel,serif;min-width:110px;text-align:center}
+.gift .x{font:italic 500 44px/1.28 'Cormorant Garamond',serif;color:#f7ead7;text-align:left}.gift .x small{display:block;font:600 20px Cinzel,serif;font-style:normal;letter-spacing:6px;color:#e3c58c;margin-bottom:8px}
+#wand{position:absolute;left:470px;top:1500px;width:140px;height:240px;opacity:0;transition:opacity .5s;filter:drop-shadow(0 0 20px rgba(255,230,170,.8))}
+#wand.on{opacity:1;animation:wv 1.6s ease-in-out infinite;transform-origin:50% 100%}@keyframes wv{50%{transform:rotate(-14deg) translateY(-8px)}}
+/* ===== ring box ===== */
+#box{position:absolute;left:340px;top:830px;width:400px;height:360px;perspective:1200px}
+#box .bt{position:absolute;left:0;bottom:0;width:400px;height:200px;border-radius:18px 18px 30px 30px;background:linear-gradient(#5e0b28,#2a0411);box-shadow:0 34px 70px rgba(0,0,0,.6),inset 0 -12px 0 rgba(0,0,0,.25),inset 0 2px 0 rgba(255,200,200,.15)}
+#box .bt::before{content:"";position:absolute;left:30px;right:30px;top:18px;height:90px;border-radius:50%;background:radial-gradient(#1a020a,#4a0820)}
+#box .bt::after{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:linear-gradient(90deg,#7a5418,#f6e3b4,#b8862b,#f6e3b4,#7a5418)}
+#box .lid{position:absolute;left:0;top:40px;width:400px;height:130px;border-radius:30px 30px 14px 14px;background:linear-gradient(#7a1034,#3e0617);transform-origin:50% 100%;transition:transform 1.3s cubic-bezier(.3,1.3,.5,1);box-shadow:0 10px 20px rgba(0,0,0,.35),inset 0 2px 0 rgba(255,200,200,.18);z-index:3}
+#box .lid::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:linear-gradient(90deg,#7a5418,#f6e3b4,#b8862b,#f6e3b4,#7a5418)}
+#box.open .lid{transform:translateY(-120px) rotateX(-110deg)}
+#ring{position:absolute;left:110px;top:20px;width:180px;height:220px;opacity:0;transform:translateY(80px) scale(.5);transition:opacity .6s .5s,transform 1.3s .5s cubic-bezier(.3,1.5,.5,1);z-index:2;filter:drop-shadow(0 0 26px rgba(255,255,255,.85))}
+#box.open #ring{opacity:1;transform:translateY(-130px) scale(1.15)}
+.btn{position:absolute;padding:30px 0;width:380px;border-radius:4px;text-align:center;font:600 34px Cinzel,serif;letter-spacing:8px;opacity:0;pointer-events:none;transition:opacity .7s,transform .3s}
+#yes1{left:120px;top:1420px;background:linear-gradient(110deg,#9b7330,#f6e3b4 35%,#d9b26a 60%,#fff4d6 80%,#b8862b);color:#2a0d22;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+#yes2{left:580px;top:1420px;border:2px solid #e3c58c;color:#f3dfb5;background:rgba(30,8,22,.55);box-shadow:inset 0 0 0 6px rgba(0,0,0,.2),inset 0 0 0 7px rgba(233,207,142,.35),0 20px 50px rgba(0,0,0,.5)}
+.btn.on{opacity:1;pointer-events:auto;animation:yp 1.6s ease-in-out infinite}@keyframes yp{50%{transform:scale(1.04)}}
+/* ===== finale ===== */
+#castle{position:absolute;left:140px;top:430px;width:800px;height:520px;opacity:0;transform:translateY(100px);transition:opacity 1.6s,transform 1.8s cubic-bezier(.3,1.2,.5,1);filter:drop-shadow(0 0 18px rgba(233,207,142,.55))}
+#castle.on{opacity:1;transform:none}
+#pol{position:absolute;left:360px;top:430px;width:360px;height:470px;padding:7px;border-radius:180px 180px 10px 10px;background:linear-gradient(135deg,#7a5418,#f6e3b4,#b8862b,#fff4d6,#8a6420);box-shadow:0 0 50px rgba(233,207,142,.4),0 30px 70px rgba(0,0,0,.6);opacity:0;transform:translateY(60px) scale(.9);transition:transform 1.3s cubic-bezier(.3,1.3,.5,1),opacity 1s;display:none}
+#pol.on{opacity:1;transform:none}
+#pol img{width:100%;height:100%;object-fit:cover;display:block;border-radius:174px 174px 6px 6px}
+#pol p{position:absolute;left:-60px;right:-60px;bottom:-70px;font:52px 'Pinyon Script',cursive;text-align:center}
+#lcard{position:absolute;left:90px;right:90px;top:1000px;padding:56px 60px 46px;text-align:center;background:linear-gradient(180deg,#fffaf2,#f6ecdc);border-radius:4px;box-shadow:inset 0 0 0 12px #fffaf2,inset 0 0 0 14px #c9a24e,inset 0 0 0 18px #fffaf2,inset 0 0 0 19px #c9a24e,0 30px 80px rgba(0,0,0,.6);opacity:0;transform:translateY(60px);transition:opacity 1.1s,transform 1.1s}
+#lcard.on{opacity:1;transform:none}
+#letter{font:italic 500 46px/1.5 'Cormorant Garamond',serif;color:#3a1426;white-space:pre-line;min-height:340px}
+#sign{font:68px 'Pinyon Script',cursive;color:#7a1f3d;margin-top:10px;opacity:0;transition:opacity 1s}
+#sc4.ph #castle{top:250px;transform:scale(.62);opacity:.5}#sc4.ph #lcard{top:1150px;padding:44px 54px 36px}#sc4.ph #letter{font-size:40px;min-height:290px}#sc4.ph #f1{top:140px!important;font-size:96px!important}
+/* ===== hint ===== */
+#hint{position:absolute;left:60px;right:60px;bottom:110px;z-index:40;text-align:center;opacity:0;transition:opacity .5s;pointer-events:none}
+#hint span{display:inline-block;font:600 26px/1.5 Cinzel,serif;letter-spacing:4px;text-transform:uppercase;color:#f3dfb5;background:rgba(26,8,20,.62);border:1px solid rgba(233,207,142,.7);padding:22px 46px;border-radius:2px;box-shadow:inset 0 0 0 5px rgba(0,0,0,.15),inset 0 0 0 6px rgba(233,207,142,.25),0 14px 36px rgba(0,0,0,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:hn 2s ease-in-out infinite}
+@keyframes hn{50%{box-shadow:inset 0 0 0 5px rgba(0,0,0,.15),inset 0 0 0 6px rgba(233,207,142,.25),0 0 34px rgba(233,207,142,.35)}}
+#flash{position:absolute;inset:-400px;background:#fff6e6;opacity:0;pointer-events:none;z-index:35;transition:opacity .35s}
+#replay{position:fixed;right:40px;bottom:40px;z-index:100;padding:10px 18px;border:1px solid #e3c58c;background:rgba(26,8,20,.7);font:600 11px Cinzel,serif;letter-spacing:4px;color:#f3dfb5;display:none;cursor:pointer}
+</style></head>
+<body>
+<!-- shared gold gradients + crown symbol -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gold" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#8a6420"/><stop offset=".35" stop-color="#fff4d6"/><stop offset=".6" stop-color="#c9a24e"/><stop offset=".8" stop-color="#f6e3b4"/><stop offset="1" stop-color="#7a5418"/></linearGradient>
+    <symbol id="crown" viewBox="0 0 100 70"><path d="M8 58 L14 20 L32 40 L50 6 L68 40 L86 20 L92 58Z" fill="url(#gold)" stroke="#5c3a0a" stroke-width="1.5"/><rect x="8" y="58" width="84" height="8" rx="2" fill="url(#gold)" stroke="#5c3a0a" stroke-width="1.5"/><circle cx="50" cy="6" r="4.5" fill="#fff4d6"/><circle cx="14" cy="20" r="3.5" fill="#fff4d6"/><circle cx="86" cy="20" r="3.5" fill="#fff4d6"/><circle cx="50" cy="44" r="5" fill="#9e1a43"/></symbol>
+    <symbol id="corner" viewBox="0 0 70 70"><g fill="none" stroke="url(#gold)" stroke-width="1.6"><path d="M4 66 V20 Q4 4 20 4 H66"/><path d="M12 50 Q12 12 50 12"/><path d="M20 4 Q28 18 14 26 Q4 30 4 20"/><circle cx="12" cy="12" r="3.5" fill="url(#gold)"/></g></symbol>
+    <symbol id="divider" viewBox="0 0 300 24"><g fill="none" stroke="url(#gold)" stroke-width="1.4"><path d="M0 12 H118"/><path d="M182 12 H300"/><path d="M150 2 L160 12 L150 22 L140 12Z" fill="url(#gold)"/><path d="M118 12 Q128 2 138 12 Q128 22 118 12"/><path d="M182 12 Q172 2 162 12 Q172 22 182 12"/></g></symbol>
+  </defs>
+</svg>
+<div id="bgx"><div id="rays"></div><canvas id="gl"></canvas><div id="vig"></div></div>
+<div id="frame"></div><div id="frame2"></div>
+<svg class="cor a"><use href="#corner"/></svg><svg class="cor b"><use href="#corner"/></svg><svg class="cor c"><use href="#corner"/></svg><svg class="cor d"><use href="#corner"/></svg>
+<div id="start"></div>
+<div id="replay">REPLAY</div>
+<audio id="song" preload="auto" loop></audio>
+<div id="wrap"><div id="stage">
+
+<!-- 00 grand envelope -->
+<div class="scene on" id="sc00">
+  <div class="t on" style="top:430px"><svg width="170" height="120"><use href="#crown"/></svg></div>
+  <div class="t on lbl" style="top:590px">SEALED WITH LOVE</div>
+  <div id="env"><div class="back"></div>
+    <div id="lt"><svg width="90" height="63"><use href="#crown"/></svg><div class="s">For my Princess</div><svg width="260" height="20"><use href="#divider"/></svg></div>
+    <svg id="pocket" viewBox="0 0 800 540"><defs><linearGradient id="pk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6e0f30"/><stop offset="1" stop-color="#3a0515"/></linearGradient></defs>
+      <path d="M0 0 L400 300 L0 540Z" fill="url(#pk)" stroke="url(#gold)" stroke-width="2"/><path d="M800 0 L400 300 L800 540Z" fill="url(#pk)" stroke="url(#gold)" stroke-width="2"/>
+      <path d="M0 540 L400 262 L800 540Z" fill="#580a26" stroke="url(#gold)" stroke-width="2.5"/>
+      <rect x="1.5" y="1.5" width="797" height="537" rx="12" fill="none" stroke="url(#gold)" stroke-width="3"/><rect x="14" y="14" width="772" height="512" rx="8" fill="none" stroke="rgba(233,207,142,.4)" stroke-width="1"/></svg>
+    <svg id="flap" viewBox="0 0 800 340"><path d="M2 2 H798 L422 320 Q400 338 378 320Z" fill="#7a1034" stroke="url(#gold)" stroke-width="3"/><path d="M44 14 H756 L412 304 Q400 314 388 304Z" fill="none" stroke="rgba(233,207,142,.45)" stroke-width="1"/></svg>
+    <div id="seal2"><svg width="80" height="56"><use href="#crown"/></svg></div>
+    <div id="envName" class="foil"></div>
+  </div>
+  <div id="big">
+    <svg class="bc" style="left:34px;top:34px"><use href="#corner"/></svg><svg class="bc" style="right:34px;top:34px;transform:scaleX(-1)"><use href="#corner"/></svg><svg class="bc" style="left:34px;bottom:34px;transform:scaleY(-1)"><use href="#corner"/></svg><svg class="bc" style="right:34px;bottom:34px;transform:scale(-1,-1)"><use href="#corner"/></svg>
+    <svg width="150" height="105"><use href="#crown"/></svg>
+    <div class="k">MY DEAREST</div>
+    <div class="nm" id="bigName"></div>
+    <svg width="320" height="26"><use href="#divider"/></svg>
+    <div id="inv"></div><div id="isg"></div>
+  </div>
+</div>
+
+<!-- 0 magic mirror -->
+<div class="scene" id="sc0">
+  <div class="t lbl" id="m0" style="top:200px">THE MAGIC MIRROR</div>
+  <div class="t ttl" id="m1" style="top:265px;font-size:60px">"Mirror, mirror, tell me true…<br><b class="foil">who is the most beautiful princess?"</b></div>
+  <div id="mirror"><div id="mframe"></div><div id="mglass"><svg id="mcrack" viewBox="0 0 516 716"></svg><div id="mreveal"><img id="mImg" alt="" style="display:none"><svg id="mCrown" width="150" height="105"><use href="#crown"/></svg><div class="n" id="mName"></div></div></div></div>
+  <div class="t ttl" id="m2" style="top:1330px;font-size:84px">It's <b class="foil">you.</b></div>
+</div>
+
+<!-- 1 royal decree -->
+<div class="scene" id="sc1">
+  <div id="scroll"><div class="rod"></div><div id="paper"><div class="in"><div class="k">ROYAL DECREE</div><svg width="300" height="24" style="margin-top:14px"><use href="#divider"/></svg><div id="decree"></div><div class="sg" id="dsign"></div><div id="wax"><svg width="60" height="42"><use href="#crown"/></svg></div></div></div><div class="rod"></div></div>
+</div>
+
+<!-- 2 crown her -->
+<div class="scene" id="sc2">
+  <div class="t lbl" id="c0" style="top:200px">EVERY PRINCESS NEEDS HER CROWN</div>
+  <svg id="tiara" viewBox="0 0 300 200">
+    <path d="M20 170 Q150 120 280 170 L270 190 Q150 145 30 190 Z" fill="url(#gold)" stroke="#5c3a0a" stroke-width="2.5"/>
+    <path d="M40 165 L60 95 L95 140 L150 30 L205 140 L240 95 L260 165 Q150 125 40 165Z" fill="url(#gold)" stroke="#5c3a0a" stroke-width="2.5"/>
+    <path d="M60 150 Q150 115 240 150" fill="none" stroke="#fff4d6" stroke-width="1.5" stroke-dasharray="2 7"/>
+    <circle cx="150" cy="30" r="15" fill="#9e1a43" stroke="#fff4d6" stroke-width="3"/><circle cx="60" cy="95" r="10" fill="#eaf6ff" stroke="#c9a24e" stroke-width="2"/><circle cx="240" cy="95" r="10" fill="#eaf6ff" stroke="#c9a24e" stroke-width="2"/>
+    <path d="M150 100 L162 116 L150 134 L138 116Z" fill="#9e1a43" stroke="#fff4d6" stroke-width="2"/><circle cx="105" cy="140" r="7" fill="#eaf6ff"/><circle cx="195" cy="140" r="7" fill="#eaf6ff"/>
+    <circle cx="145" cy="25" r="4" fill="#fff"/><circle cx="57" cy="91" r="3" fill="#fff"/><circle cx="237" cy="91" r="3" fill="#fff"/></svg>
+  <div id="nameglow" class="t foil scr"></div>
+  <div id="hail" class="foil"></div>
+  <div id="hold"><span>HOLD<br><svg width="54" height="38"><use href="#crown"/></svg></span></div>
+</div>
+
+<!-- 3 reasons -->
+<div class="scene" id="sc3">
+  <div class="t lbl" id="g0" style="top:220px">WHY YOU ARE MY PRINCESS</div>
+  <div class="t ttl" id="g1" style="top:285px">Wave your wand…<br><b class="foil">and read my heart</b></div>
+  <div id="gifts"></div>
+  <svg id="wand" viewBox="0 0 140 240"><rect x="64" y="70" width="12" height="170" rx="6" fill="url(#gold)" stroke="#5c3a0a" stroke-width="1.5"/><rect x="62" y="200" width="16" height="10" fill="#3e0617"/><path d="M70 6 L82 42 L120 42 L89 64 L101 100 L70 78 L39 100 L51 64 L20 42 L58 42Z" fill="url(#gold)" stroke="#fff4d6" stroke-width="2"/></svg>
+</div>
+
+<!-- 3b ring box -->
+<div class="scene" id="sc5">
+  <div class="t lbl" id="r0" style="top:240px">ONE LAST QUESTION</div>
+  <div class="t ttl" id="r1" style="top:305px">I don't want just one day<br>to treat you like a princess…</div>
+  <div class="t ttl" id="r2" style="top:305px">I want <b class="foil">every single day</b><br>for the rest of my life.</div>
+  <div id="box"><svg id="ring" viewBox="0 0 180 220"><defs><linearGradient id="dg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#e6f5ff"/><stop offset="1" stop-color="#b9e2ff"/></linearGradient></defs>
+    <ellipse cx="90" cy="150" rx="62" ry="56" fill="none" stroke="url(#gold)" stroke-width="13"/><path d="M60 70 L90 40 L120 70 L90 110Z" fill="url(#dg)" stroke="#fff" stroke-width="3"/><path d="M60 70 L120 70 M90 40 L80 70 L90 110 L100 70Z" stroke="#a8dcff" stroke-width="2" fill="none"/><path d="M75 95 L90 110 L105 95" fill="none" stroke="url(#gold)" stroke-width="8"/></svg>
+    <div class="lid"></div><div class="bt"></div></div>
+  <div class="t ttl" id="r3" style="top:1235px;font-size:66px">Will you be my princess… <b class="foil">forever?</b></div>
+  <div class="btn" id="yes1">YES</div><div class="btn" id="yes2">FOREVER</div>
+</div>
+
+<!-- 4 finale -->
+<div class="scene" id="sc4">
+  <div class="t foil scr" id="f1" style="top:220px;font-size:96px;white-space:nowrap;left:0;right:0">Happy Princess Day</div>
+  <svg id="castle" viewBox="0 0 800 520"><g fill="rgba(255,230,180,.05)" stroke="url(#gold)" stroke-width="2.5" stroke-linejoin="round">
+    <rect x="250" y="250" width="300" height="270"/><rect x="120" y="300" width="120" height="220"/><rect x="560" y="300" width="120" height="220"/>
+    <rect x="350" y="140" width="100" height="170"/><rect x="70" y="350" width="70" height="170"/><rect x="660" y="350" width="70" height="170"/>
+    <path d="M340 140 L400 30 L460 140Z"/><path d="M110 300 L180 190 L250 300Z"/><path d="M550 300 L620 190 L690 300Z"/><path d="M62 350 L105 270 L148 350Z"/><path d="M652 350 L695 270 L738 350Z"/>
+    <path d="M400 30 v-28 l24 9 -24 9"/><path d="M180 190 v-22 l18 7 -18 7"/><path d="M620 190 v-22 l18 7 -18 7"/>
+    <path d="M360 520 v-90 a40 40 0 0 1 80 0 v90Z"/>
+    <path d="M250 250 v-18 h30 v18 M316 250 v-18 h30 v18 M454 250 v-18 h30 v18 M520 250 v-18 h30 v18"/></g>
+    <g fill="#ffd99a" opacity=".9"><rect x="385" y="190" width="30" height="44" rx="15"/><rect x="165" y="350" width="30" height="44" rx="15"/><rect x="605" y="350" width="30" height="44" rx="15"/><rect x="290" y="300" width="28" height="40" rx="14"/><rect x="482" y="300" width="28" height="40" rx="14"/></g></svg>
+  <div id="pol"><img id="polImg" alt=""><p class="foil">my forever princess</p></div>
+  <div id="lcard"><svg width="240" height="20" style="margin-bottom:18px"><use href="#divider"/></svg><div id="letter"></div><div id="sign"></div></div>
+  <div class="t lbl" id="f2" style="top:1832px;font-size:15px;letter-spacing:5px;color:#c9a7b8">UNSAID · SAY IT WITH A SURPRISE</div>
+</div>
+
+<canvas class="fx" id="fx" width="540" height="960"></canvas>
+<div id="flash"></div>
+<div id="hint"><span></span></div>
+</div></div>
+<script>
+/* ================= EDIT EVERYTHING HERE ================= */
+const ORDER = {
+  her: "Priya",                      // her name
+  him: "Arjun",                      // his name
+  song: "princess.mpeg",
+  photo: "princess photo.jpeg",      // optional: a photo of her / you both (skipped if missing)
+  invite: "Today is not just another day.\nToday, the whole kingdom\ncelebrates one girl —\nyou.\n\nSo come with me, my princess…\nyour fairytale is waiting.",
+  decree: "By order of the King of your heart,\ntoday is hereby declared\nPrincess Day.\n\nThe Princess shall be pampered,\nadored, spoiled with chocolates,\nand loved a little extra —\ntoday and every day.",
+  reasons: [   // why she's his princess
+    "your smile is my favourite place in the whole world",
+    "you make my ordinary days feel like magic",
+    "my heart chose you — and it will choose you every day"
+  ],
+  letter: "Before you, life was just days.\nWith you, every day feels like a fairytale.\nI can't promise you a castle,\nbut I promise you my heart, my time,\nand every happy ending I can give.\nI love you, my princess. Always."
+};
+/* ========================================================= */
+const $ = id => document.getElementById(id), wait = ms => new Promise(r => setTimeout(r, ms)), on = id => $(id).classList.add("on"), off = id => $(id).classList.remove("on");
+$("envName").textContent = "Princess " + ORDER.her; $("bigName").textContent = ORDER.her; $("isg").textContent = "— Yours, " + ORDER.him; hint("Touch the seal to open"); $("mName").textContent = ORDER.her; $("dsign").textContent = "— King " + ORDER.him; $("nameglow").textContent = ORDER.her; $("sign").textContent = "— Forever yours, " + ORDER.him;
+let hasPhoto = false; if (ORDER.photo) { const im = new Image(); im.onload = () => { hasPhoto = true; $("polImg").src = ORDER.photo; $("mImg").src = ORDER.photo; $("mImg").style.display = "block"; $("mCrown").style.display = "none"; $("mName").style.display = "none"; }; im.src = ORDER.photo; }
+/* soft champagne & blush bokeh */
+const BK = [["rgba(255,205,140,.55)", 46, 8, 12], ["rgba(255,150,190,.45)", 40, 70, 30], ["rgba(255,215,160,.4)", 34, 20, 70], ["rgba(220,120,170,.4)", 50, 60, 80], ["rgba(255,230,190,.35)", 26, 80, 50], ["rgba(255,180,200,.3)", 30, 10, 45]];
+BK.forEach(([c, s, x, y], i) => { const d = document.createElement("div"); d.className = "bk"; Object.assign(d.style, { width: s + "vmax", height: s + "vmax", left: (x - s / 2) + "vw", top: (y - s / 2) + "vh", background: `radial-gradient(closest-side,${c},transparent)`, animationDuration: (16 + i * 3) + "s" }); d.style.setProperty("--x", (i % 2 ? -1 : 1) * (8 + i * 2) + "vw"); d.style.setProperty("--y", (i % 3 ? 1 : -1) * (6 + i * 2) + "vh"); $("bgx").insertBefore(d, $("gl")); });
+/* gold dust */
+const gl = $("gl").getContext("2d"); let GW = 0, GH = 0, GL = [];
+function sizeGl() { GW = Math.round(innerWidth / 1.4); GH = Math.round(innerHeight / 1.4); $("gl").width = GW; $("gl").height = GH; GL = Array.from({ length: 170 }, () => ({ x: Math.random() * GW, y: Math.random() * GH, r: .5 + Math.random() * 2.2, p: Math.random() * 6, s: 1 + Math.random() * 2.5, v: .05 + Math.random() * .25, c: Math.random() < .75 ? "246,222,170" : "255,255,255" })); }
+sizeGl(); addEventListener("resize", sizeGl);
+function drawGlitter(t) { gl.clearRect(0, 0, GW, GH); for (const g of GL) { g.y -= g.v; if (g.y < -5) g.y = GH + 5; const a = .15 + .85 * Math.pow(Math.max(0, Math.sin(t * g.s + g.p)), 3); gl.fillStyle = `rgba(${g.c},${a * .9})`; gl.beginPath(); gl.arc(g.x, g.y, g.r * .7, 0, 7); gl.fill(); if (g.r > 1.9 && a > .5) { const L = g.r * 4 * a; gl.fillRect(g.x - L, g.y - .5, L * 2, 1); gl.fillRect(g.x - .5, g.y - L, 1, L * 2); } } }
+let k = 1; function fit() { k = Math.min(innerWidth / 1080, innerHeight / 1920); $("stage").style.transform = `scale(${k})`; } addEventListener("resize", fit); fit();
+const stagePt = e => { const r = $("stage").getBoundingClientRect(); return [(e.clientX - r.left) / k, (e.clientY - r.top) / k]; };
+/* particles — gold, champagne, blush only */
+const fx = $("fx").getContext("2d"); fx.setTransform(.5, 0, 0, .5, 0, 0);
+const rnd = Math.random, cl = v => Math.max(0, Math.min(1, v)), eo = x => 1 - Math.pow(1 - x, 3);
+const PC = ["#f2c4cd", "#e39aac", "#f6e3b4", "#d9b26a", "#fff4ea"], GC = ["#fff4d6", "#f6e3b4", "#e3c58c", "#ffffff"], RB = ["#f6e3b4", "#d9b26a", "#b8862b", "#fff4d6", "#e8b4bf", "#ffffff"];
+let P = [], last = performance.now(), RT = 0, petalRate = .07, floatH = 0, fwOn = false, fwT = 0;
+const hp = (u, s) => [16 * Math.pow(Math.sin(u), 3) * s, -(13 * Math.cos(u) - 5 * Math.cos(2 * u) - 2 * Math.cos(3 * u) - Math.cos(4 * u)) * s];
+function heart(x, y, s) { fx.beginPath(); for (let i = 0; i <= 30; i++) { const [a, b] = hp(i / 30 * 6.283, s / 16); i ? fx.lineTo(x + a, y + b) : fx.moveTo(x + a, y + b); } fx.fill(); }
+function hearts(x, y, n, sp = 14) { for (let i = 0; i < n; i++) { const a = rnd() * 6.28, v = 3 + rnd() * sp; P.push({ k: 1, x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 3, g: .12, dr: .97, s: 16 + rnd() * 20, c: PC[i % 5], l: 1, d: .008 }); } }
+function sparks(x, y, n, cols = GC, sp = 14) { for (let i = 0; i < n; i++) { const a = rnd() * 6.28, v = 2 + rnd() * sp; P.push({ k: 0, x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, s: 2 + rnd() * 3.5, c: cols[i % cols.length], l: 1, d: .013, dr: .95, g: .03 }); } }
+function confetti(x, y, n) { for (let i = 0; i < n; i++) { const a = -Math.PI / 2 + (rnd() - .5) * 2.6, v = 9 + rnd() * 15; P.push({ k: 2, x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, g: .3, dr: .985, s: 10 + rnd() * 10, c: RB[i % 6], r: rnd() * 6, vr: (rnd() - .5) * .4, l: 1, d: .006 }); } }
+function firework(x, y) { const col = ["#f6e3b4", "#ffffff", "#f2c4cd", "#e3c58c"][Math.floor(rnd() * 4)]; for (let i = 0; i < 64; i++) { const a = i / 64 * 6.28, v = 6 + rnd() * 5; P.push({ k: 0, x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, s: 2.5 + rnd() * 2, c: i % 4 ? col : "#fff", l: 1, d: .012, dr: .96, g: .06 }); } }
+const PET = ["#7a0f30", "#9e1a43", "#c23a5e", "#e9a3b5", "#f7e1dc"];
+function petal() { P.push({ k: 3, x: rnd() * 1100, y: -40, vx: .5 + rnd() * 1.2, vy: 1.8 + rnd() * 2, g: 0, s: 14 + rnd() * 14, c: PET[Math.floor(rnd() * 5)], r: rnd() * 6, vr: (rnd() - .5) * .08, l: 1, d: .0018, ph: rnd() * 6 }); }
+let MG = null, mgP = 0;
+function buildMagic(lines) { const oc = document.createElement("canvas"); oc.width = 1080; oc.height = 700; const o = oc.getContext("2d"); o.fillStyle = "#fff"; o.textAlign = "center";
+  lines.forEach(([t, px, y]) => { o.font = px + "px 'Pinyon Script', cursive"; const w = o.measureText(t).width; if (w > 960) o.font = Math.floor(px * 960 / w) + "px 'Pinyon Script', cursive"; o.fillText(t, 540, y); });
+  const d = o.getImageData(0, 0, 1080, 700).data, pts = []; for (let y = 0; y < 700; y += 7) for (let x = 0; x < 1080; x += 7) if (d[(y * 1080 + x) * 4 + 3] > 128) pts.push([x, y + 560]);
+  while (pts.length > 1600) pts.splice(Math.floor(rnd() * pts.length), 1);
+  MG = pts.map(([tx, ty]) => ({ tx, ty, sx: 540 + (rnd() - .5) * 200, sy: 1000 + (rnd() - .5) * 200, ph: rnd() * 6, c: ["#fff4d6", "#f6e3b4", "#ffffff", "#e3c58c"][Math.floor(rnd() * 4)], s: 4.5 + rnd() * 3 })); }
+function drawMagic() { if (!MG) return; const e = eo(mgP); for (const m of MG) { const w = (1 - e) * 30; const x = m.sx + (m.tx - m.sx) * e + Math.sin(RT * 2 + m.ph) * w, y = m.sy + (m.ty - m.sy) * e + Math.cos(RT * 1.7 + m.ph) * w; fx.globalAlpha = e > .98 ? .85 + .15 * Math.sin(RT * 5 + m.ph) : .6 + .4 * Math.sin(RT * 4 + m.ph); fx.fillStyle = m.c; fx.beginPath(); fx.arc(x, y, m.s / 2, 0, 7); fx.fill(); } fx.globalAlpha = 1; }
+function tween(ms, f) { return new Promise(res => { const t0 = performance.now(); const st = () => { const q = cl((performance.now() - t0) / ms); f(q); q < 1 ? requestAnimationFrame(st) : res(); }; st(); }); }
+function frame(now) { const dt = Math.min(.05, (now - last) / 1000); last = now; RT += dt;
+  if (holding && holdCb) holdCb(dt); else if (relCb) relCb(dt);
+  drawGlitter(RT); if (rnd() < petalRate) petal();
+  if (floatH && rnd() < floatH) P.push({ k: 1, x: rnd() * 1080, y: 1980, vx: (rnd() - .5) * .8, vy: -(2.2 + rnd() * 2.2), g: 0, s: 14 + rnd() * 16, c: PC[Math.floor(rnd() * 5)], l: 1, d: .003 });
+  if (fwOn) { fwT -= dt; if (fwT <= 0) { firework(150 + rnd() * 780, 250 + rnd() * 450); fwT = .7 + rnd() * .7; } }
+  P = P.filter(p => p.l > 0 && p.y < 2050 && p.y > -120); if (P.length > 340) P.splice(0, P.length - 340);
+  fx.clearRect(0, 0, 1080, 1920); drawMagic();
+  for (const p of P) { p.vx *= p.dr || 1; p.vy *= p.dr || 1; p.vy += p.g; p.x += p.vx; p.y += p.vy; p.l -= p.d; fx.globalAlpha = cl(p.l); fx.fillStyle = p.c;
+    if (p.k === 3) { p.r += p.vr; p.x += Math.sin(RT * 2 + p.ph) * .9; fx.save(); fx.translate(p.x, p.y); fx.rotate(p.r); fx.scale(1, .55 + .45 * Math.abs(Math.sin(RT * 2.5 + p.ph))); fx.beginPath(); fx.moveTo(0, -p.s); fx.bezierCurveTo(p.s * .9, -p.s * .6, p.s * .7, p.s * .7, 0, p.s); fx.bezierCurveTo(-p.s * .7, p.s * .7, -p.s * .9, -p.s * .6, 0, -p.s); fx.fill(); fx.restore(); }
+    else if (p.k === 1) heart(p.x, p.y, p.s);
+    else if (p.k === 2) { p.r += p.vr; fx.save(); fx.translate(p.x, p.y); fx.rotate(p.r); fx.fillRect(-p.s / 2, -p.s / 5, p.s, p.s / 2.5); fx.restore(); }
+    else { fx.beginPath(); fx.arc(p.x, p.y, p.s, 0, 7); fx.fill(); } }
+  fx.globalAlpha = 1; requestAnimationFrame(frame); }
+/* input — gold sparkle trail follows her finger */
+let tapCb = null, holding = false, holdCb = null, relCb = null;
+function hint(t) { if (t) { $("hint").firstChild.innerHTML = t; $("hint").style.opacity = 1; } else $("hint").style.opacity = 0; }
+function waitTap(t) { return new Promise(res => { hint(t); tapCb = () => { hint(); tapCb = null; res(); }; }); }
+function flash(a = .7) { $("flash").style.opacity = a; setTimeout(() => $("flash").style.opacity = 0, 260); }
+$("wrap").addEventListener("pointerdown", e => { holding = true; const [x, y] = stagePt(e); sparks(x, y, 18, GC, 7); if (tapCb) tapCb(); });
+$("wrap").addEventListener("pointermove", e => { const [x, y] = stagePt(e); if (rnd() < .6) sparks(x, y, 2, GC, 3); });
+addEventListener("pointerup", () => holding = false); addEventListener("pointercancel", () => holding = false);
+/* ================= THE STORY ================= */
+async function story() {
+  // 00 — the grand envelope opens
+  hint(); $("seal2").classList.add("pop"); flash(.5); sparks(540, 1050, 160, GC, 16); hearts(540, 1050, 20, 12); await wait(500);
+  $("env").classList.add("open"); await wait(550); $("flap").style.zIndex = 1; await wait(600);
+  $("lt").classList.add("up"); sparks(540, 760, 60, GC, 10); await wait(1400);
+  flash(.7); $("env").classList.add("go"); on("big"); sparks(540, 900, 200, GC, 20); await wait(1500);
+  const I = ORDER.invite; for (let i = 1; i <= I.length; i++) { $("inv").textContent = I.slice(0, i) + (i < I.length ? "|" : ""); await wait(45); }
+  $("isg").style.opacity = 1; await wait(1500);
+  await waitTap("Tap · begin your fairytale");
+  off("sc00"); await wait(1100);
+  // 0 — magic mirror: tap 3 times
+  on("sc0"); await wait(300); on("m0"); await wait(600); on("m1"); await wait(1200);
+  const CR = [["M258 60 L232 200 L282 300 L242 420", "M258 60 L322 180 L292 260"], ["M60 350 L175 330 L242 410 L312 390 L456 420", "M242 410 L222 550 L272 660"], ["M120 150 L232 200", "M410 160 L322 180", "M100 570 L222 550", "M430 590 L272 660"]];
+  for (let i = 0; i < 3; i++) { await waitTap(i === 0 ? "Tap the mirror three times" : `Tap again · ${i} of 3`);
+    $("mirror").classList.remove("shake"); void $("mirror").offsetWidth; $("mirror").classList.add("shake");
+    CR[i].forEach(d => { const pth = document.createElementNS("http://www.w3.org/2000/svg", "path"); pth.setAttribute("d", d); pth.setAttribute("stroke", "#fffbe6"); pth.setAttribute("stroke-width", "5"); pth.setAttribute("fill", "none"); pth.style.filter = "drop-shadow(0 0 10px #fff)"; $("mcrack").appendChild(pth); });
+    sparks(540, 870, 50 + i * 30, GC, 10 + i * 4); }
+  flash(1); await wait(200); $("mcrack").style.display = "none"; on("mreveal"); sparks(540, 870, 200, GC, 20); hearts(540, 870, 30, 14); off("m1"); await wait(900); on("m2");
+  await wait(2600); await waitTap("Tap · a royal message for you");
+  off("sc0"); await wait(1000);
+  // 1 — royal decree
+  on("sc1"); await wait(500); $("paper").style.height = "1220px"; await wait(2000);
+  const D = ORDER.decree; for (let i = 1; i <= D.length; i++) { $("decree").textContent = D.slice(0, i) + (i < D.length ? "|" : ""); await wait(38); }
+  $("dsign").style.opacity = 1; await wait(500); on("wax"); sparks(540, 1380, 60); await wait(1500);
+  await waitTap("Tap · claim your crown");
+  off("sc1"); await wait(1000);
+  // 2 — hold to crown her
+  on("sc2"); await wait(300); on("c0"); await wait(500); on("nameglow"); const T = $("tiara");
+  T.style.transform = "translateY(-30px)"; $("hold").style.opacity = 1; $("hold").classList.add("on"); hint("Press &amp; HOLD to wear your crown");
+  await new Promise(res => { let p = 0; const set = () => { T.style.transform = `translateY(${-30 + eo(p) * 560}px) scale(${1 - .25 * p}) rotate(${Math.sin(RT * 3) * (1 - p) * 6}deg)`; $("hold").style.setProperty("--p", p * 100 + "%"); };
+    relCb = dt => { p = Math.max(0, p - dt / 5); set(); };
+    holdCb = dt => { p = Math.min(1, p + dt / 2.6); set(); if (rnd() < .5) sparks(540, 430 + eo(p) * 560, 3, GC, 5); if (p >= 1) { holdCb = relCb = null; res(); } }; });
+  hint(); $("hold").style.opacity = 0; $("hold").classList.remove("on"); flash(.8); sparks(540, 1000, 220, GC, 20); hearts(540, 1050, 36, 14); confetti(540, 1200, 110);
+  $("hail").textContent = "ALL HAIL PRINCESS " + ORDER.her.toUpperCase(); $("hail").style.opacity = 1; floatH = .03;
+  await wait(2800); await waitTap("Tap · see why you are my princess");
+  off("sc2"); floatH = 0; await wait(1000);
+  // 3 — wand reveals the reasons
+  const RN = ["I", "II", "III", "IV", "V"];
+  ORDER.reasons.forEach((g, i) => { const d = document.createElement("div"); d.className = "gift"; d.id = "gf" + i; d.style.top = (i * 300) + "px"; d.innerHTML = `<div class="e foil">${RN[i]}</div><div class="x"><small>BECAUSE</small>${g}</div>`; $("gifts").appendChild(d); });
+  on("sc3"); await wait(300); on("g0"); await wait(400); on("g1"); on("wand");
+  for (let i = 0; i < ORDER.reasons.length; i++) {
+    await waitTap(i === 0 ? "Tap anywhere to wave your wand" : `Wave again · ${i} of ${ORDER.reasons.length}`);
+    for (let j = 0; j < 14; j++) setTimeout(() => sparks(540 + Math.cos(j / 2) * (320 - j * 18), 700 + i * 300 + Math.sin(j / 2) * 80, 6, GC, 5), j * 30);
+    await wait(400); on("gf" + i); sparks(540, 700 + i * 300, 30, GC, 9); await wait(900); }
+  off("wand"); await wait(1800); await waitTap("Tap · one more thing, Princess…");
+  off("sc3"); await wait(1000);
+  // 3b — ring box
+  on("sc5"); await wait(300); on("r0"); await wait(500); on("r1"); await wait(2600); off("r1"); await wait(900); on("r2"); await wait(1500);
+  await waitTap("Tap the box to open it");
+  $("box").classList.add("open"); flash(.6); await wait(900); sparks(540, 820, 160, ["#ffffff", "#e6f5ff", "#fff4d6"], 16); await wait(900);
+  on("r3"); await wait(900); on("yes1"); on("yes2");
+  await new Promise(res => { ["yes1", "yes2"].forEach(id => $(id).addEventListener("pointerdown", e => { e.stopPropagation(); res(); }, { once: true })); });
+  off("yes1"); off("yes2"); off("r0"); off("r2"); off("r3"); $("box").style.transition = "opacity .7s"; $("box").style.opacity = 0;
+  flash(1); confetti(540, 1500, 180); hearts(540, 1100, 60, 20); fwOn = true; for (let i = 0; i < 4; i++) setTimeout(() => firework(200 + rnd() * 680, 300 + rnd() * 400), i * 250);
+  await document.fonts.ready; buildMagic([["I Love You", 240, 260], [ORDER.her, 200, 520]]); mgP = 0; await tween(2600, q => mgP = q);
+  await wait(3000); await waitTap("Tap · your fairytale ending");
+  for (const m of MG) { m.sx = m.tx + (rnd() - .5) * 1400; m.sy = m.ty + (rnd() - .5) * 2000; } await tween(900, q => mgP = 1 - q); MG = null;
+  off("sc5"); await wait(800);
+  // 4 — finale
+  if (hasPhoto) { $("sc4").classList.add("ph"); $("pol").style.display = "block"; }
+  on("sc4"); flash(.6); await wait(300); on("castle"); floatH = .035; petalRate = .12;
+  for (let i = 0; i < 3; i++) setTimeout(() => firework(250 + rnd() * 580, 300 + rnd() * 300), i * 300);
+  await wait(900); on("f1"); await wait(900);
+  if (hasPhoto) { on("pol"); sparks(540, 660, 80, GC, 12); await wait(1300); }
+  on("lcard"); await wait(700);
+  const L = ORDER.letter; for (let i = 1; i <= L.length; i++) { $("letter").textContent = L.slice(0, i) + (i < L.length ? "|" : ""); await wait(42); }
+  $("sign").style.opacity = 1; await wait(600); on("f2"); confetti(200, 1900, 80); confetti(880, 1900, 80); await wait(5000); fwOn = false; $("replay").style.display = "block";
+}
+$("start").addEventListener("click", () => { $("start").style.display = "none"; const a = $("song"); a.src = ORDER.song; a.play().catch(() => {}); story(); }, { once: true });
+$("replay").addEventListener("pointerdown", e => e.stopPropagation());
+$("replay").addEventListener("click", () => location.reload());
+requestAnimationFrame(frame);
+</script>
+</body></html>
